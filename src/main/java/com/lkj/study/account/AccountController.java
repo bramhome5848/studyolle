@@ -57,8 +57,7 @@ public class AccountController {
             return view;
         }
 
-        account.setEmailVerified(true); //email 인증 true
-        account.setJoinedAt(LocalDateTime.now());   //가입 날짜
+        account.completeSingUp();
         model.addAttribute("numberOfUser", accountRepository.count());
         model.addAttribute("nickname", account.getNickname());
         return view;
