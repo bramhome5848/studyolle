@@ -19,7 +19,9 @@ repositories {
 }
 
 dependencies {
-	compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'com.github.eirslett:frontend-maven-plugin:1.8.0'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
