@@ -16,7 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //특정 요청들을 security check 하지 않도록 설정
         http.authorizeRequests()
-                .mvcMatchers("/", "/login", "sign-up", "/check-email", "check-email-token",
+                .mvcMatchers("/", "/login", "sign-up", "check-email-token",
                         "/email-login", "/check-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
                 .anyRequest().authenticated();  //나머지는 security check

@@ -27,7 +27,7 @@ public class AccountService {
     public Account processNewAccount(SignUpForm signUpForm) {
         Account newAccount = saveNewAccount(signUpForm);
         newAccount.generateEmailCheckToken();
-        sendSingUpConfirmEmail(newAccount);
+        sendSignUpConfirmEmail(newAccount);
         return newAccount;
     }
 
@@ -48,7 +48,7 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    private void sendSingUpConfirmEmail(Account newAccount) {
+    public void sendSignUpConfirmEmail(Account newAccount) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(newAccount.getEmail());
         mailMessage.setSubject("스터디 올래, 회원 가입 인증");
