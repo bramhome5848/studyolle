@@ -20,6 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/email-login", "/check-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
                 .anyRequest().authenticated();  //나머지는 security check
+
+        //form login 기능 사용
+        http.formLogin()
+                .loginPage("/login").permitAll();
+
+        //logout
+        http.logout()
+                .logoutSuccessUrl("/"); //logout 했을 때 어디로 갈지
     }
 
     @Override
@@ -27,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //static resource 는 인증하지 말도록 설정
         web.ignoring()
                 .mvcMatchers("/node_modules/**")
+                .antMatchers("/favicon.ico", "/resources/**", "/error") //login 할 때 정적 컨텐츠가 없어 나는 error 인해 추가(ex 이미지)
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 }
