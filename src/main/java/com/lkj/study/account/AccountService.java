@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AccountService implements UserDetailsService { //spring security class 상속
 
@@ -25,7 +26,6 @@ public class AccountService implements UserDetailsService { //spring security cl
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public Account processNewAccount(SignUpForm signUpForm) {
         Account newAccount = saveNewAccount(signUpForm);
         newAccount.generateEmailCheckToken();
@@ -86,4 +86,34 @@ public class AccountService implements UserDetailsService { //spring security cl
 
         return new UserAccount(account);
     }
+
+    /**
+     * Open EntityManager( 또는 Session) In view 필터
+     * 영속성 컨텍스트 요청을 처리하는 전체 프로세스에서 바인딩 시켜주는 필터.
+     * 뷰를 랜더링 할 때 까지 영속성 컨텍스트를 유지하기 때문에 필요한 데이터를 랜더링 하는 시점에 추가로 읽어올 수 있음(DB 커넥션은 계속 유지하고 있기 때문에)
+     * 엔티티 객체 변경은 반드시 트랜잭션 안에서 할 것 -> 트랙잭션 종료 직전 또는 필요한 시점에 변경 사항을 DB 반영
+     * Controller -> Service -> Repository 이용일 때 트랜잭션은 Service, Repository 적용
+     * Controller -> Repository 용일 때 트랜재션은 Repository 적용
+     *
+     * 본 프로젝트에서는 데이터 변경은 서비스 계층으로 위임해서 트랜잭션 안에서 처리
+     */
+
+    public void completeSingUp(Account account) {
+        account.completeSingUp();
+        login(account);
+    }
+
+    /**
+     * OSIV 자료
+     * OSIV 전략은 트랜잭션 시작처럼 최초 데이터베이스 커넥션 시작 시점부터 API 응답이 끝날 때 까지 영속성 컨텍스트와 데이터베이스 커넥션을 유지.
+     * 그래서 View Template이나 API 컨트롤러에서 지연 로딩이 가능
+     * 지연 로딩은 영속성 컨텍스트가 살아있어야 가능하고, 영속성 컨텍스트는 기본적으로 데이터베이스 커넥션을 유지.
+     * 이 전략은 너무 오랜시간동안 데이터베이스 커넥션 리소스를 사용, 실시간 트래픽이 중 요한 애플리케이션에서는 커넥션이 모자랄 수 있음 -> 장애로 이어질 수 있음
+     * ex) 컨트롤러에서 외부 API를 호출하면 외부 API 대기 시간 만큼 커넥션 리소스를 반환하지 못하고 유지
+     *
+     * OSIV를 끄면 트랜잭션을 종료할 때 영속성 컨텍스트를 닫고, 데이터베이스 커넥션도 반환
+     * OSIV를 끄면 모든 지연로딩을 트랜잭션 안에서 처리
+     * 지연 로딩 코드를 트랜잭션 안으로 넣어야 함. 그리고 view template에서 지연로딩이 동작하지 않음.
+     * 결론적으로 트랜잭션이 끝나기 전에 지연 로딩을 강제로 호출
+     */
 }
