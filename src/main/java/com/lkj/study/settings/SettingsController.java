@@ -5,6 +5,7 @@ import com.lkj.study.account.CurrentUser;
 import com.lkj.study.domain.Account;
 import com.lkj.study.Profile;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -20,15 +21,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class SettingsController {
 
-    /**
-     * Spring Validator 를 사용 시 @Valid annotation 으로 검증이 필요한 객체를 가져오기 전에
-     * 수행할 method 를 지정해주는 annotation
-     */
-    @InitBinder("passwordForm")
-    public void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(new PasswordFormValidator());
-    }
-
     static final String SETTINGS_PROFILE_VIEW_NAME = "settings/profile";
     static final String SETTINGS_PROFILE_URL = "/settings/profile";
 
@@ -39,11 +31,23 @@ public class SettingsController {
     static final String SETTINGS_NOTIFICATIONS_URL = "/settings/notifications";
 
     private final AccountService accountService;
+    private final ModelMapper modelMapper;
+
+    /**
+     * Spring Validator 를 사용 시 @Valid annotation 으로 검증이 필요한 객체를 가져오기 전에
+     * 수행할 method 를 지정해주는 annotation
+     */
+    @InitBinder("passwordForm")
+    public void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(new PasswordFormValidator());
+    }
+
 
     @GetMapping(SETTINGS_PROFILE_URL)
     public String profileUpdateForm(@CurrentUser Account account, Model model) {
         model.addAttribute(account);
-        model.addAttribute(new Profile(account));
+        //modelMapper 통해서 account 의 정보를 Profile 를 만들어서 채워라
+        model.addAttribute(modelMapper.map(account, Profile.class));
         return SETTINGS_PROFILE_VIEW_NAME;
     }
 
@@ -83,7 +87,8 @@ public class SettingsController {
     @GetMapping(SETTINGS_NOTIFICATIONS_URL)
     public String updateNotificationsForm(@CurrentUser Account account, Model model) {
         model.addAttribute(account);
-        model.addAttribute(new Notifications(account));
+        //modelMapper 통해서 account 의 정보를 Notifications 를 만들어서 채워라
+        model.addAttribute(modelMapper.map(account, Notifications.class));
         return SETTINGS_NOTIFICATIONS_VIEW_NAME;
     }
 

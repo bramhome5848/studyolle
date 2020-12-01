@@ -4,6 +4,7 @@ import com.lkj.study.domain.Account;
 import com.lkj.study.Profile;
 import com.lkj.study.settings.Notifications;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +28,7 @@ public class AccountService implements UserDetailsService { //spring security cl
     private final AccountRepository accountRepository;
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
     public Account processNewAccount(SignUpForm signUpForm) {
         Account newAccount = saveNewAccount(signUpForm);
@@ -127,13 +129,8 @@ public class AccountService implements UserDetailsService { //spring security cl
      * managed -> 영속성 컨텍스에 저장된 상태
      */
     public void updateProfile(Account account, Profile profile) {
-        account.setUrl(profile.getUrl());
-        account.setOccupation(profile.getOccupation());
-        account.setLocation(profile.getLocation());
-        account.setBio(profile.getBio());
-        account.setProfileImage(profile.getProfileImage());
+        modelMapper.map(profile, account); //source -> destination
         accountRepository.save(account);    //detached 상태 객체를 merge 하게 됨
-        // TODO 문제가 하나 더 남았습니다.
     }
 
     public void updatePassword(Account account, String newPassword) {
@@ -142,12 +139,7 @@ public class AccountService implements UserDetailsService { //spring security cl
     }
 
     public void updateNotifications(Account account, Notifications notifications) {
-        account.setStudyCreatedByWeb(notifications.isStudyCreatedByWeb());
-        account.setStudyCreatedByEmail(notifications.isStudyCreatedByEmail());
-        account.setStudyUpdatedByWeb(notifications.isStudyUpdatedByWeb());
-        account.setStudyUpdatedByEmail(notifications.isStudyUpdatedByEmail());
-        account.setStudyEnrollmentResultByEmail(notifications.isStudyEnrollmentResultByEmail());
-        account.setStudyEnrollmentResultByWeb(notifications.isStudyEnrollmentResultByWeb());
+        modelMapper.map(notifications, account);    //source -> destination
         accountRepository.save(account);
     }
 }
