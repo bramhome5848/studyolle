@@ -1,7 +1,7 @@
 package com.lkj.study.account;
 
 import com.lkj.study.domain.Account;
-import com.lkj.study.domain.Profile;
+import com.lkj.study.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -130,7 +130,7 @@ public class AccountService implements UserDetailsService { //spring security cl
         account.setOccupation(profile.getOccupation());
         account.setLocation(profile.getLocation());
         account.setBio(profile.getBio());
-        // TODO 프로필 이미지
+        account.setProfileImage(profile.getProfileImage());
         accountRepository.save(account);    //detached 상태 객체를 merge 하게 됨
         // TODO 문제가 하나 더 남았습니다.
     }

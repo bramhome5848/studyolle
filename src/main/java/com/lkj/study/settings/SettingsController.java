@@ -3,13 +3,12 @@ package com.lkj.study.settings;
 import com.lkj.study.account.AccountService;
 import com.lkj.study.account.CurrentUser;
 import com.lkj.study.domain.Account;
-import com.lkj.study.domain.Profile;
+import com.lkj.study.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
