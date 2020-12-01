@@ -1,6 +1,7 @@
 package com.lkj.study.account;
 
 import com.lkj.study.domain.Account;
+import com.lkj.study.domain.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -116,4 +117,21 @@ public class AccountService implements UserDetailsService { //spring security cl
      * 지연 로딩 코드를 트랜잭션 안으로 넣어야 함. 그리고 view template에서 지연로딩이 동작하지 않음.
      * 결론적으로 트랜잭션이 끝나기 전에 지연 로딩을 강제로 호출
      */
+
+
+    /**
+     * account -> detached 상태
+     * detached -> 영속성 컨텍스트에 저장되었다가 분리된 상태
+     * transient(new) -> 양속성 컨텍스트와 관계가 없는 상태 -> 대체로 auto inc 로 인해 id 가 존재
+     * managed -> 영속성 컨텍스에 저장된 상태
+     */
+    public void updateProfile(Account account, Profile profile) {
+        account.setUrl(profile.getUrl());
+        account.setOccupation(profile.getOccupation());
+        account.setLocation(profile.getLocation());
+        account.setBio(profile.getBio());
+        // TODO 프로필 이미지
+        accountRepository.save(account);    //detached 상태 객체를 merge 하게 됨
+        // TODO 문제가 하나 더 남았습니다.
+    }
 }
