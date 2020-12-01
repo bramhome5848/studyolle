@@ -13,7 +13,7 @@ public class SignUpFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return aClass.isAssignableFrom(SignUpForm.class);   //signUPForm type check
+        return aClass.isAssignableFrom(SignUpForm.class);   //sign up form type check
     }
 
     @Override

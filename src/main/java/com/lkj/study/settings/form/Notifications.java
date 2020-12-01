@@ -1,8 +1,6 @@
-package com.lkj.study.settings;
+package com.lkj.study.settings.form;
 
-import com.lkj.study.domain.Account;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class Notifications {

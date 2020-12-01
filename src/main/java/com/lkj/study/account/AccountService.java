@@ -1,8 +1,8 @@
 package com.lkj.study.account;
 
 import com.lkj.study.domain.Account;
-import com.lkj.study.Profile;
-import com.lkj.study.settings.Notifications;
+import com.lkj.study.settings.form.Profile;
+import com.lkj.study.settings.form.Notifications;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;
@@ -141,5 +141,11 @@ public class AccountService implements UserDetailsService { //spring security cl
     public void updateNotifications(Account account, Notifications notifications) {
         modelMapper.map(notifications, account);    //source -> destination
         accountRepository.save(account);
+    }
+
+    public void updateNickname(Account account, String nickname) {
+        account.setNickname(nickname);
+        accountRepository.save(account);
+        login(account);
     }
 }

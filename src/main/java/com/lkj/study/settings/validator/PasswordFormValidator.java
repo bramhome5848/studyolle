@@ -1,5 +1,6 @@
-package com.lkj.study.settings;
+package com.lkj.study.settings.validator;
 
+import com.lkj.study.settings.form.PasswordForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
