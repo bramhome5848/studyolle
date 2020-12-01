@@ -134,4 +134,9 @@ public class AccountService implements UserDetailsService { //spring security cl
         accountRepository.save(account);    //detached 상태 객체를 merge 하게 됨
         // TODO 문제가 하나 더 남았습니다.
     }
+
+    public void updatePassword(Account account, String newPassword) {
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
+    }
 }

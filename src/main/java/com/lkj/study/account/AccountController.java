@@ -21,7 +21,7 @@ public class AccountController {
     private final AccountService accountService;
     private final AccountRepository accountRepository;
 
-    @InitBinder("signUpForm")   //signUpForm data를 받을 때 사용할 binder 를 설정 가능
+    @InitBinder("signUpForm")   //signUpForm data 를 받을 때 사용할 binder 를 설정 가능
     public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(signUpFormValidator);
     }
