@@ -5,7 +5,6 @@ import com.lkj.study.account.CurrentUser;
 import com.lkj.study.domain.Account;
 import com.lkj.study.Profile;
 import lombok.RequiredArgsConstructor;
-import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,6 +20,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class SettingsController {
 
+    /**
+     * Spring Validator 를 사용 시 @Valid annotation 으로 검증이 필요한 객체를 가져오기 전에
+     * 수행할 method 를 지정해주는 annotation
+     */
     @InitBinder("passwordForm")
     public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(new PasswordFormValidator());
@@ -31,6 +34,9 @@ public class SettingsController {
 
     static final String SETTINGS_PASSWORD_VIEW_NAME = "settings/password";
     static final String SETTINGS_PASSWORD_URL = "/settings/password";
+
+    static final String SETTINGS_NOTIFICATIONS_VIEW_NAME = "settings/notifications";
+    static final String SETTINGS_NOTIFICATIONS_URL = "/settings/notifications";
 
     private final AccountService accountService;
 
@@ -72,5 +78,25 @@ public class SettingsController {
         accountService.updatePassword(account, passwordForm.getNewPassword());
         attributes.addFlashAttribute("message", "패스워드를 변경했습니다.");
         return "redirect:" + SETTINGS_PASSWORD_URL;
+    }
+
+    @GetMapping(SETTINGS_NOTIFICATIONS_URL)
+    public String updateNotificationsForm(@CurrentUser Account account, Model model) {
+        model.addAttribute(account);
+        model.addAttribute(new Notifications(account));
+        return SETTINGS_NOTIFICATIONS_VIEW_NAME;
+    }
+
+    @PostMapping(SETTINGS_NOTIFICATIONS_URL)
+    public String updateNotifications(@CurrentUser Account account, @Valid Notifications notifications, Errors errors,
+                                      Model model, RedirectAttributes attributes) {
+        if (errors.hasErrors()) {
+            model.addAttribute(account);
+            return SETTINGS_NOTIFICATIONS_VIEW_NAME;
+        }
+
+        accountService.updateNotifications(account, notifications);
+        attributes.addFlashAttribute("message", "알림 설정을 변경했습니다.");
+        return "redirect:" + SETTINGS_NOTIFICATIONS_URL;
     }
 }

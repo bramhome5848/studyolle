@@ -21,6 +21,10 @@ public class AccountController {
     private final AccountService accountService;
     private final AccountRepository accountRepository;
 
+    /**
+     * Spring Validator 를 사용 시 @Valid annotation 으로 검증이 필요한 객체를 가져오기 전에
+     * 수행할 method 를 지정해주는 annotation
+     */
     @InitBinder("signUpForm")   //signUpForm data 를 받을 때 사용할 binder 를 설정 가능
     public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(signUpFormValidator);
