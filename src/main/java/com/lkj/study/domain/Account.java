@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -56,6 +57,9 @@ public class Account {
     private boolean studyUpdatedByEmail;
 
     private boolean studyUpdatedByWeb = true;
+
+    @ManyToMany
+    private Set<Tag> tags;  //단방향, ManyToMany -> 조인 테이브을 사용해 다대다 관계 표현(중간 테이블)
 
     public void generateEmailCheckToken() {
         this.emailCheckToken = UUID.randomUUID().toString();
