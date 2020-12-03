@@ -3,21 +3,19 @@ package com.lkj.study.settings;
 import com.lkj.study.account.AccountService;
 import com.lkj.study.account.CurrentUser;
 import com.lkj.study.domain.Account;
-import com.lkj.study.settings.form.NicknameForm;
-import com.lkj.study.settings.form.Profile;
-import com.lkj.study.settings.form.Notifications;
-import com.lkj.study.settings.form.PasswordForm;
+import com.lkj.study.domain.Tag;
+import com.lkj.study.settings.form.*;
 import com.lkj.study.settings.validator.NicknameValidator;
 import com.lkj.study.settings.validator.PasswordFormValidator;
+import com.lkj.study.tag.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -38,9 +36,13 @@ public class SettingsController {
     static final String SETTINGS_ACCOUNT_VIEW_NAME = "settings/account";
     static final String SETTINGS_ACCOUNT_URL = "/" + SETTINGS_ACCOUNT_VIEW_NAME;
 
+    static final String SETTINGS_TAGS_VIEW_NAME = "settings/tags";
+    static final String SETTINGS_TAGS_URL = "/" + SETTINGS_TAGS_VIEW_NAME;
+
     private final AccountService accountService;
     private final ModelMapper modelMapper;
     private final NicknameValidator nicknameValidator;
+    private final TagRepository tagRepository;
 
     /**
      * Spring Validator 를 사용 시 @Valid annotation 으로 검증이 필요한 객체를 가져오기 전에
@@ -138,4 +140,23 @@ public class SettingsController {
         return "redirect:" + SETTINGS_ACCOUNT_URL;
     }
 
+    @GetMapping(SETTINGS_TAGS_URL)
+    public String updateTags(@CurrentUser Account account, Model model) {
+        model.addAttribute(account);
+        return SETTINGS_TAGS_VIEW_NAME;
+    }
+
+    @PostMapping("/settings/tags/add")
+    @ResponseBody
+    public ResponseEntity addTag(@CurrentUser Account account, @RequestBody TagForm tagForm) {
+        String title = tagForm.getTagTitle();
+
+        Tag tag = tagRepository.findByTitle(title);
+        if (tag == null) {
+            tag = tagRepository.save(Tag.builder().title(tagForm.getTagTitle()).build());
+        }
+
+        accountService.addTag(account, tag);
+        return ResponseEntity.ok().build();
+    }
 }

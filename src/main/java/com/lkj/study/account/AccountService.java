@@ -1,6 +1,7 @@
 package com.lkj.study.account;
 
 import com.lkj.study.domain.Account;
+import com.lkj.study.domain.Tag;
 import com.lkj.study.settings.form.Profile;
 import com.lkj.study.settings.form.Notifications;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -157,5 +159,12 @@ public class AccountService implements UserDetailsService { //spring security cl
         mailMessage.setText("/login-by-email?token=" + account.getEmailCheckToken() +
                 "&email=" + account.getEmail());
         javaMailSender.send(mailMessage);
+    }
+
+    public void addTag(Account account, Tag tag) {
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        byId.ifPresent(a -> a.getTags().add(tag));
+        //findById -> eager loading
+        //getOne -> lazy loading
     }
 }
