@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME) //runtime 까지
 @Target(ElementType.PARAMETER)  //parameter 에서만 사용
 @AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : account")    //인증되지 않은 사용자 -> null
-public @interface CurrentUser {
+public @interface CurrentAccount {
 }
