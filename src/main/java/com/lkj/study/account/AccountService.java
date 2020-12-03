@@ -35,7 +35,6 @@ public class AccountService implements UserDetailsService { //spring security cl
 
     public Account processNewAccount(SignUpForm signUpForm) {
         Account newAccount = saveNewAccount(signUpForm);
-        newAccount.generateEmailCheckToken();
         sendSignUpConfirmEmail(newAccount);
         return newAccount;
     }
@@ -45,15 +44,10 @@ public class AccountService implements UserDetailsService { //spring security cl
          * encoding -> plaintext + salt hashing -> db 저장
          * login -> 사용자 입력 plaintext, db 저장된 비민번호를 함께 해싱 -> 같은지 다른지 판별
          */
-        Account account = Account.builder()
-                .email(signUpForm.getEmail())
-                .nickname(signUpForm.getNickname())
-                .password(passwordEncoder.encode(signUpForm.getPassword())) //encoding
-                .studyCreatedByWeb(true)
-                .studyEnrollmentResultByWeb(true)
-                .studyUpdatedByWeb(true)
-                .build();
 
+        signUpForm.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
+        Account account = modelMapper.map(signUpForm, Account.class);
+        account.generateEmailCheckToken();
         return accountRepository.save(account);
     }
 
