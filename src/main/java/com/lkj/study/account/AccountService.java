@@ -2,6 +2,7 @@ package com.lkj.study.account;
 
 import com.lkj.study.domain.Account;
 import com.lkj.study.domain.Tag;
+import com.lkj.study.domain.Zone;
 import com.lkj.study.settings.form.Profile;
 import com.lkj.study.settings.form.Notifications;
 import lombok.RequiredArgsConstructor;
@@ -171,5 +172,20 @@ public class AccountService implements UserDetailsService { //spring security cl
     public void removeTag(Account account, Tag tag) {
         Optional<Account> byId = accountRepository.findById(account.getId());
         byId.ifPresent(a -> a.getTags().remove(tag));
+    }
+
+    public Set<Zone> getZones(Account account) {
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        return byId.orElseThrow().getZones();
+    }
+
+    public void addZone(Account account, Zone zone) {
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        byId.ifPresent(a -> a.getZones().add(zone));
+    }
+
+    public void removeZone(Account account, Zone zone) {
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        byId.ifPresent(a -> a.getZones().remove(zone));
     }
 }

@@ -62,6 +62,9 @@ public class Account {
     @ManyToMany
     private Set<Tag> tags =  new HashSet<>();  //단방향, ManyToMany -> 조인 테이브을 사용해 다대다 관계 표현(중간 테이블)
 
+    @ManyToMany
+    private Set<Zone> zones = new HashSet<>();
+
     public void generateEmailCheckToken() {
         this.emailCheckToken = UUID.randomUUID().toString();
         this.emailCheckTokenGeneratedAt = LocalDateTime.now();
