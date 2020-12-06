@@ -44,6 +44,29 @@ public class Account {
 
     private String location;
 
+    /**
+     * @Lob -> Large OBject
+     * - 문자열 길이를 지정하지 않으면 default -> varchar(255)
+     * 사진을 저장하는 경우 더 많은 자리수를 요구하기 때문에 Lob 사용
+     * @Basic -> Optional Annotation 으로 Entity 의 필드에 대한 설정 가능
+     * optional = false -> not null, default -> true
+     * fetch = FetchType.lazy -> lazy operation, default -> FetchType.eager
+     * content 의 크기가 크다면 고려해볼 수 있음
+     *
+     * @Basic vs @Column
+     * @Basic
+     * - JPA entity 에 적용
+     * - optional = false -> JPA entity filed 의 null 허용 여부를 결정
+     * - lazy, eager fetch 적용
+     *
+     * @Column
+     * - Database column 에 적용
+     * - Database 의 column 이 null 을 허용하면 @Column 의 filed 역시 허용
+     * - Database 의 어떤 column 과 매핑 되는지 명시 가능
+     */
+    //@Lob -> Large OBject -> 문자열 길이를 지정하지 않으면 default -> varchar(255)
+    //사진을 저장하는 경우 더 많은 자리수를 요구함 -> Lob 사용
+    //@Basic -> optional annotation
     @Lob @Basic(fetch = FetchType.EAGER)
     private String profileImage;
 
