@@ -103,8 +103,8 @@ class StudyControllerTest {
         study.setShortDescription("short description");
         study.setFullDescription("<p>full description</p>");
 
-        Account keesun = accountRepository.findByNickname("bramhome5848");
-        studyService.createNewStudy(study, keesun);
+        Account account = accountRepository.findByNickname("bramhome5848");
+        studyService.createNewStudy(study, account);
 
         mockMvc.perform(get("/study/test-path"))
                 .andExpect(view().name("study/view"))
