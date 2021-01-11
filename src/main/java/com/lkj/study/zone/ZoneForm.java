@@ -1,4 +1,4 @@
-package com.lkj.study.settings.form;
+package com.lkj.study.zone;
 
 import com.lkj.study.domain.Zone;
 import lombok.Data;

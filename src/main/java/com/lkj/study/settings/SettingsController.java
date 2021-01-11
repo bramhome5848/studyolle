@@ -10,7 +10,10 @@ import com.lkj.study.domain.Zone;
 import com.lkj.study.settings.form.*;
 import com.lkj.study.settings.validator.NicknameValidator;
 import com.lkj.study.settings.validator.PasswordFormValidator;
+import com.lkj.study.tag.TagForm;
 import com.lkj.study.tag.TagRepository;
+import com.lkj.study.tag.TagService;
+import com.lkj.study.zone.ZoneForm;
 import com.lkj.study.zone.ZoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -47,6 +50,7 @@ public class SettingsController {
     private final AccountService accountService;
     private final ModelMapper modelMapper;
     private final NicknameValidator nicknameValidator;
+    private final TagService tagService;
     private final TagRepository tagRepository;
     private final ZoneRepository zoneRepository;
     private final ObjectMapper objectMapper;
@@ -163,13 +167,7 @@ public class SettingsController {
     @PostMapping(TAGS + "/add")
     @ResponseBody
     public ResponseEntity addTag(@CurrentAccount Account account, @RequestBody TagForm tagForm) {
-        String title = tagForm.getTagTitle();
-
-        Tag tag = tagRepository.findByTitle(title);
-        if (tag == null) {
-            tag = tagRepository.save(Tag.builder().title(title).build());
-        }
-
+        Tag tag = tagService.findOrCreateNew(tagForm.getTagTitle());
         accountService.addTag(account, tag);
         return ResponseEntity.ok().build();
     }
