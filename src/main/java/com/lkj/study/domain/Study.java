@@ -101,6 +101,10 @@ public class Study {
         return this.managers.contains(userAccount.getAccount());
     }
 
+    public void addMemeber(Account account) {
+        this.members.add(account);
+    }
+
     public String getImage() {
         return image != null ? image : "/images/default_banner.png";
     }
