@@ -1,5 +1,6 @@
 package com.lkj.study.modules.main;
 
+import com.lkj.study.infra.AbstractContainerBaseTest;
 import com.lkj.study.modules.account.AccountRepository;
 import com.lkj.study.modules.account.AccountService;
 import com.lkj.study.modules.account.form.SignUpForm;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class MainControllerTest {
+class MainControllerTest extends AbstractContainerBaseTest {
 
     @Autowired
     MockMvc mockMvc;

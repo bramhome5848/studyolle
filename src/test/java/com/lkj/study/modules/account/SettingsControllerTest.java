@@ -1,6 +1,8 @@
 package com.lkj.study.modules.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lkj.study.infra.AbstractContainerBaseTest;
+import com.lkj.study.infra.MockMvcTest;
 import com.lkj.study.modules.tag.Tag;
 import com.lkj.study.modules.zone.Zone;
 import com.lkj.study.modules.tag.TagForm;
@@ -26,10 +28,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc
-class SettingsControllerTest {
+@MockMvcTest
+class SettingsControllerTest extends AbstractContainerBaseTest {
 
     @Autowired
     MockMvc mockMvc;

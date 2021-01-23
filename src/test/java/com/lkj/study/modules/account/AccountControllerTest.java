@@ -1,5 +1,7 @@
 package com.lkj.study.modules.account;
 
+import com.lkj.study.infra.AbstractContainerBaseTest;
+import com.lkj.study.infra.MockMvcTest;
 import com.lkj.study.infra.mail.EmailMessage;
 import com.lkj.study.infra.mail.EmailService;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
-class AccountControllerTest {
+@MockMvcTest
+class AccountControllerTest extends AbstractContainerBaseTest {
 
     @Autowired
     private MockMvc mockMvc;
