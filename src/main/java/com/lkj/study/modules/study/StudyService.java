@@ -27,8 +27,6 @@ public class StudyService {
     public Study createNewStudy(Study study, Account account) {
         Study newStudy = studyRepository.save(study);
         newStudy.addManager(account);
-        //스터디 생성시 따로 처리, 비동기적으로 처리
-        eventPublisher.publishEvent(new StudyCreatedEvent(newStudy));   //이벤트 발생 -> 이벤트 처리(StudyEventListener)
         return newStudy;
     }
 
@@ -101,6 +99,7 @@ public class StudyService {
 
     public void publish(Study study) {
         study.publish();
+        eventPublisher.publishEvent(new StudyCreatedEvent(study));   //이벤트 발생 -> 이벤트 처리(StudyEventListener)
     }
 
     public void close(Study study) {
