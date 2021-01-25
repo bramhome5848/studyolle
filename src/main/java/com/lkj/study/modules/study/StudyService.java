@@ -1,11 +1,13 @@
 package com.lkj.study.modules.study;
 
 import com.lkj.study.modules.account.Account;
+import com.lkj.study.modules.study.event.StudyCreatedEvent;
 import com.lkj.study.modules.tag.Tag;
 import com.lkj.study.modules.zone.Zone;
 import com.lkj.study.modules.study.form.StudyDescriptionForm;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +22,13 @@ public class StudyService {
 
     private final StudyRepository studyRepository;
     private final ModelMapper modelMapper;
+    private final ApplicationEventPublisher eventPublisher;
 
     public Study createNewStudy(Study study, Account account) {
         Study newStudy = studyRepository.save(study);
         newStudy.addManager(account);
+        //스터디 생성시 따로 처리, 비동기적으로 처리
+        eventPublisher.publishEvent(new StudyCreatedEvent(newStudy));   //이벤트 발생 -> 이벤트 처리(StudyEventListener)
         return newStudy;
     }
 
