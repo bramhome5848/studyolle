@@ -19,6 +19,12 @@ public class NotificationInterceptor implements HandlerInterceptor {
 
     private final NotificationRepository notificationRepository;
 
+    /**
+     * preHandle -> handler 들어가기 이전
+     * postHandle -> handler 처리 이후, 뷰 랜더링 전
+     * afterCompletion -> 뷰 렌더링 끝난 이후
+     */
+
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
