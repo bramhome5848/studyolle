@@ -18,24 +18,24 @@ import java.util.Set;
  * 조회할 데이터라면 쿼리 개수를 줄이고 Join 을 통해서 가져오자
  * Left outer join 으로 연관 데이터를 한번에 조회할 수도 있음
  */
-@NamedEntityGraph(name = "Study.withAll", attributeNodes = {
-        @NamedAttributeNode("tags"),
-        @NamedAttributeNode("zones"),
-        @NamedAttributeNode("managers"),
-        @NamedAttributeNode("members")})
-@NamedEntityGraph(name = "Study.withTagsAndManagers", attributeNodes = {
-        @NamedAttributeNode("tags"),
-        @NamedAttributeNode("managers")})
-@NamedEntityGraph(name = "Study.withZonesAndManagers", attributeNodes = {
-        @NamedAttributeNode("zones"),
-        @NamedAttributeNode("managers")})
-@NamedEntityGraph(name = "Study.withManagers", attributeNodes = {
-        @NamedAttributeNode("managers")})
-@NamedEntityGraph(name = "Study.withMembers", attributeNodes = {
-        @NamedAttributeNode("members")})
-@NamedEntityGraph(name = "Study.withTagsAndZones", attributeNodes = {
-        @NamedAttributeNode("tags"),
-        @NamedAttributeNode("zones")})
+//@NamedEntityGraph(name = "Study.withAll", attributeNodes = {
+//        @NamedAttributeNode("tags"),
+//        @NamedAttributeNode("zones"),
+//        @NamedAttributeNode("managers"),
+//        @NamedAttributeNode("members")})
+//@NamedEntityGraph(name = "Study.withTagsAndManagers", attributeNodes = {
+//        @NamedAttributeNode("tags"),
+//        @NamedAttributeNode("managers")})
+//@NamedEntityGraph(name = "Study.withZonesAndManagers", attributeNodes = {
+//        @NamedAttributeNode("zones"),
+//        @NamedAttributeNode("managers")})
+//@NamedEntityGraph(name = "Study.withManagers", attributeNodes = {
+//        @NamedAttributeNode("managers")})
+//@NamedEntityGraph(name = "Study.withMembers", attributeNodes = {
+//        @NamedAttributeNode("members")})
+//@NamedEntityGraph(name = "Study.withTagsAndZones", attributeNodes = {
+//        @NamedAttributeNode("tags"),
+//        @NamedAttributeNode("zones")})
 @Entity
 @Getter
 @Setter
