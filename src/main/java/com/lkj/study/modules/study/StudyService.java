@@ -180,7 +180,7 @@ public class StudyService {
     /**
      * Test data 만들기
      */
-    TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
     public void generateTestStudies(Account account) {
         for(int i=0 ; i<30 ; i++) {
@@ -191,6 +191,7 @@ public class StudyService {
                     .shortDescription("테스트용 스터디 입니다.")
                     .fullDescription("test")
                     .tags(new HashSet<>())
+                    .managers(new HashSet<>())
                     .build();
 
             study.publish();
