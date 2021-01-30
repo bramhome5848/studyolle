@@ -69,7 +69,7 @@ public class StudySettingController {
         Study study = studyService.getStudyToUpdate(account, path);
         model.addAttribute(account);
         model.addAttribute(study);
-        return "redirect:/study/" + study.getEncodedPath() + "/settings/banner";
+        return "study/settings/banner";
     }
 
     @PostMapping("/banner")

@@ -1,7 +1,10 @@
 package com.lkj.study.modules.study;
 
+import com.lkj.study.modules.account.Account;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface StudyRepository extends JpaRepository<Study, Long>, StudyRepositoryExtension {
 
@@ -40,4 +43,11 @@ public interface StudyRepository extends JpaRepository<Study, Long>, StudyReposi
 
     @EntityGraph(attributePaths = {"members", "managers"})
     Study findStudyWithManagersAndMemebersById(Long id);
+
+    @EntityGraph(attributePaths = {"zones", "tags"})
+    List<Study> findFirst9ByPublishedAndClosedOrderByPublishedDateTimeDesc(boolean published, boolean closed);
+
+    List<Study> findFirst5ByManagersContainingAndClosedOrderByPublishedDateTimeDesc(Account account, boolean closed);
+
+    List<Study> findFirst5ByMembersContainingAndClosedOrderByPublishedDateTimeDesc(Account account, boolean closed);
 }
