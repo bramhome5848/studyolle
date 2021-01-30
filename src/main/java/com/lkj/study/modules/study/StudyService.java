@@ -4,14 +4,18 @@ import com.lkj.study.modules.account.Account;
 import com.lkj.study.modules.study.event.StudyCreatedEvent;
 import com.lkj.study.modules.study.event.StudyUpdateEvent;
 import com.lkj.study.modules.tag.Tag;
+import com.lkj.study.modules.tag.TagRepository;
 import com.lkj.study.modules.zone.Zone;
 import com.lkj.study.modules.study.form.StudyDescriptionForm;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.utility.RandomString;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
 
 import static com.lkj.study.modules.study.form.StudyForm.VALID_PATH_PATTERN;
 
@@ -171,5 +175,28 @@ public class StudyService {
         Study study = studyRepository.findStudyOnlyByPath(path);
         checkIfExistingStudy(path, study);
         return study;
+    }
+
+    /**
+     * Test data 만들기
+     */
+    TagRepository tagRepository;
+
+    public void generateTestStudies(Account account) {
+        for(int i=0 ; i<30 ; i++) {
+            String randomValue = RandomString.make(5);
+            Study study = Study.builder()
+                    .title("테스트 스터디 " + randomValue)
+                    .path("test-" + randomValue)
+                    .shortDescription("테스트용 스터디 입니다.")
+                    .fullDescription("test")
+                    .tags(new HashSet<>())
+                    .build();
+
+            study.publish();
+            Study newStudy = this.createNewStudy(study, account);
+            Tag jpa = tagRepository.findByTitle("JPA");
+            newStudy.getTags().add(jpa);
+        }
     }
 }
