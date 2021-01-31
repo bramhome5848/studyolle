@@ -1,6 +1,6 @@
 package com.lkj.study.modules.study;
 
-import com.lkj.study.infra.AbstractContainerBaseTest;
+import com.lkj.study.infra.ContainerBaseTest;
 import com.lkj.study.infra.MockMvcTest;
 import com.lkj.study.modules.account.Account;
 import com.lkj.study.modules.account.AccountFactory;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 @MockMvcTest
-class StudySettingControllerTest extends AbstractContainerBaseTest {
+class StudySettingControllerTest extends ContainerBaseTest {
 
     @Autowired
     MockMvc mockMvc;

@@ -1,6 +1,6 @@
 package com.lkj.study.modules.account;
 
-import com.lkj.study.infra.AbstractContainerBaseTest;
+import com.lkj.study.infra.ContainerBaseTest;
 import com.lkj.study.infra.MockMvcTest;
 import com.lkj.study.infra.mail.EmailMessage;
 import com.lkj.study.infra.mail.EmailService;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @MockMvcTest
-class AccountControllerTest extends AbstractContainerBaseTest {
+class AccountControllerTest extends ContainerBaseTest {
 
     @Autowired
     private MockMvc mockMvc;

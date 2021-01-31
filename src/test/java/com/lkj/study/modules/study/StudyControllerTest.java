@@ -1,6 +1,6 @@
 package com.lkj.study.modules.study;
 
-import com.lkj.study.infra.AbstractContainerBaseTest;
+import com.lkj.study.infra.ContainerBaseTest;
 import com.lkj.study.modules.account.WithAccount;
 import com.lkj.study.modules.account.AccountRepository;
 import com.lkj.study.modules.account.Account;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
-public class StudyControllerTest extends AbstractContainerBaseTest {
+public class StudyControllerTest extends ContainerBaseTest {
 
     @Autowired
     protected MockMvc mockMvc;

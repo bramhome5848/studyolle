@@ -2,7 +2,7 @@ package com.lkj.study.infra;
 
 //import org.testcontainers.containers.PostgreSQLContainer;
 
-public class AbstractContainerBaseTest {
+public class ContainerBaseTest {
 
 //    static final PostgreSQLContainer POSTGRE_SQL_CONTAINER;
 //

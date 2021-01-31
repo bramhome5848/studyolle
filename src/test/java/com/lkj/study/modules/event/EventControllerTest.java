@@ -1,13 +1,12 @@
 package com.lkj.study.modules.event;
 
-import com.lkj.study.infra.AbstractContainerBaseTest;
+import com.lkj.study.infra.ContainerBaseTest;
 import com.lkj.study.infra.MockMvcTest;
 import com.lkj.study.modules.account.AccountFactory;
 import com.lkj.study.modules.account.AccountRepository;
 import com.lkj.study.modules.account.WithAccount;
 import com.lkj.study.modules.account.Account;
 import com.lkj.study.modules.study.Study;
-import com.lkj.study.modules.study.StudyControllerTest;
 import com.lkj.study.modules.study.StudyFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @MockMvcTest
-class EventControllerTest extends AbstractContainerBaseTest {
+class EventControllerTest extends ContainerBaseTest {
 
     @Autowired
     MockMvc mockMvc;
